@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="todo.js"></script>
+<link rel="stylesheet" href="todo.css">
+<script type="text/javascript" src="../browser-cli.js"></script>
+<script type="text/javascript">
+		function listAngularPropertiesAndMethods(selector) {
+			var element = document.querySelector(selector); 
+			var scope = angular.element(element).scope();
+			var result = '';
+			for (var p in scope) {
+				if (p.indexOf('$') !== 0) { // not Angular internal variable
+					result += p;
+					if (typeof scope[p] === "function") {
+						var funStr = scope[p].toString();
+						var funArgsStr = funStr.slice(funStr.indexOf('(') + 1, funStr.indexOf(')'))
+						result += '(' + funArgsStr + ')';
+					}
+					result += ', ';
+				}
+			}
+
+			return result;
+		}
+    </script>
+</head>
+<body>
+	<h2>Todo</h2>
+	<div ng-controller="TodoCtrl">
+		<span>{{remaining()}} of {{todos.length}} remaining</span> 
+			[ <a href="" ng-click="archive()">archive</a> ]
+		<ul class="unstyled">
+			<li ng-repeat="todo in todos">
+				<input type="checkbox" ng-model="todo.done"> 
+				<span class="done-{{todo.done}}">{{todo.text}}</span>
+			</li>
+		</ul>
+		<form ng-submit="addTodo()">
+			<input type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+			<input class="btn-primary" type="submit" value="add">
+		</form>
+	</div>
+
+	<h2>Todo2</h2>
+	<div ng-controller="TodoCtrl2">
+		<span>{{remaining2()}} of {{todos2.length}} remaining</span> 
+			[ <a href="" ng-click="archive2()">archive</a> ]
+		<ul class="unstyled">
+			<li ng-repeat="todo in todos2">
+				<input type="checkbox" ng-model="todo.done">
+				<span class="done-{{todo.done}}">{{todo.text}}</span>
+			</li>
+		</ul>
+		<form ng-submit="addTodo2()">
+			<input type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+			<input class="btn-primary" type="submit" value="add">
+		</form>
+	</div>
+</body>
+</html>
